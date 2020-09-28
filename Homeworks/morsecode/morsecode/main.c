@@ -101,23 +101,7 @@ int main(void)
 		
 		_delay_ms(SHORT_DELAY);
 		_delay_ms(SHORT_DELAY);
-		_delay_ms(LONG_DELAY);
-		
-		 // 3 short delays+ 1 long delay + 1 short delay in the beginning = 7 => pause between two words
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		_delay_ms(LONG_DELAY);			// 3 short delays+ 1 long delay + 1 short delay in the beginning = 7 => pause between two words	
     }
 
     // Will never reach this
