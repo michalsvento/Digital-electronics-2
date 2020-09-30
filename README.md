@@ -8,7 +8,7 @@
 | **Computer lab exercise** | **Description** |
 | :-- | :-- |
 | [01-tools](Labs/Tools) | Lab 1: Tools:ATMEL studio 7; Simulide|
-| ... | Lab 2:... |
+| [02-leds](Labs/Leds)| Lab 2:Leds,buttons |
 | ... | Lab 3:... |
 | ... | Lab 4: ... |
 | ... | Lab 5: ... |
