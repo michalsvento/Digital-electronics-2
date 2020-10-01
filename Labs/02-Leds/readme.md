@@ -52,3 +52,20 @@ Draw the basic ways to connect a push button to the microcontroller input pin: b
 &nbsp;
 
 &nbsp;
+
+| **DDRB** | **Description** |
+| :-: | :-- |
+| 0 | Input pin |
+| 1 | Output pin|
+
+| **PORTB** | **Description** |
+| :-: | :-- |
+| 0 | Output low value |
+| 1 | Output high value|
+
+| **DDRB** | **PORTB** | **Direction** | **Internal pull-up resistor** | **Description** |
+| :-: | :-: | :-: | :-: | :-- |
+| 0 | 0 | input | no | Tri-state, high-impedance |
+| 0 | 1 | input | | |
+| 1 | 0 | output|no |Output low (sink)|
+| 1 | 1 | output|no| Output high(source)|
