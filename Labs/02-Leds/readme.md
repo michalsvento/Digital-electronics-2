@@ -10,17 +10,7 @@ The purpose of this laboratory exercise is to learn how to use basic input/outpu
 
 Draw two basic ways to connect a LED to the output pin of the microcontroller: LED active-low, LED active-high. What is the name of the LED pin that is connected to the microcontroller in each case?
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+![LEDS](Labs/02-Leds/LEDS.jpg)
 
 [Calculate LED resistor value](https://electronicsclub.info/leds.htm) for typical red and blue LEDs.
 
@@ -41,17 +31,7 @@ R = \frac{V_{SUPPLY}-V_{LED}}{I} =
 
 Draw the basic ways to connect a push button to the microcontroller input pin: button active-low, button active-high.
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+![BUTTONS](Labs/02-Leds/BUTTONS.jpg)
 
 | **DDRB** | **Description** |
 | :-: | :-- |
