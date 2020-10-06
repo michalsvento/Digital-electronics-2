@@ -43,7 +43,7 @@ int main(void)
 }
 
 // Function definition (body)
-uint16_t     calculate(uint8_t x, uint8_t y)
+uint16_t  calculate(uint8_t x, uint8_t y)
 {
     uint16_t result;    // result = x^2 + 2xy + y^2
 
