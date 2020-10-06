@@ -4,6 +4,7 @@
 | **Number of week** | **Description** |
 | :-- | :-- |
 | [01-morsecode](Homeworks/morsecode)| HW1: DE2 in morsecode |
+| [02-knightrider](Homeworks/knightrider)| HW2:LEDS blicking one by one|
 ### Introduction
 | **Computer lab exercise** | **Description** |
 | :-- | :-- |
