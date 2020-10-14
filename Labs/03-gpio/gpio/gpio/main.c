@@ -1,6 +1,6 @@
 /***********************************************************************
  * 
- * Alternately toggle two LEDs when a push button is pressed. Use 
+ * Simultaneously toggle two LEDs when a push button is pressed. Use 
  * functions from GPIO library.
  * ATmega328P (Arduino Uno), 16 MHz, AVR 8-bit Toolchain 3.6.2
  *
@@ -26,18 +26,17 @@
 
 /* Function definitions ----------------------------------------------*/
 /**
- * Main function where the program execution begins. Toggle two LEDs 
+ * Main function where the program execution begins. Toggle two LEDs simultaneously
  * when a push button is pressed. Functions from user-defined GPIO
  * library is used instead of low-level logic operations.
  */
 int main(void)
 {
-    /* GREEN LED */
-    GPIO_config_output(&DDRB, LED_GREEN);
-    GPIO_write_low(&PORTB, LED_GREEN);
+    /* GREEN LED active high */
+	GPIO_config_output(&DDRB, LED_GREEN);
+	GPIO_write_low(&PORTB, LED_GREEN);
 
-    /* RED LED */
-    // WRITE YOUR CODE HERE
+    /* RED LED active low*/
 	GPIO_config_output(&DDRC, LED_RED);
 	GPIO_write_high(&PORTC, LED_RED);
     /* push button */
@@ -49,8 +48,7 @@ int main(void)
     {
         // Pause several milliseconds
         _delay_ms(BLINK_DELAY);
-		if(!GPIO_read(&PIND, BTN))
-        // WRITE YOUR CODE HERE
+		if(!GPIO_read(&PIND, BTN))  // active low BTN
 		{
 			GPIO_toggle(&PORTB,LED_GREEN);
 			GPIO_toggle(&PORTC,LED_RED);
@@ -61,3 +59,10 @@ int main(void)
     // Will never reach this
     return 0;
 }
+
+
+
+
+
+
+
