@@ -38,18 +38,20 @@ int main(void)
 	GPIO_config_output(&DDRB, LED_D3);
 	GPIO_write_low(&PORTB, LED_D3);
     
-	/* Configuration of 8-bit Timer/Counter0 */
+	/* Configuration of 8-bit Timer/Counter0 *
+	 Set prescaler and enable overflow interrupt */
 	
-	TIM0_overflow_16ms();
+	TIM0_overflow_1ms();
 	TIM0_overflow_interrupt_enable();
 	
 	/* Configuration of 16-bit Timer/Counter1
      * Set prescaler and enable overflow interrupt */
-    TIM1_overflow_262ms();
+    TIM1_overflow_1s();
     TIM1_overflow_interrupt_enable();
 
-    /* Configuration of 8-bit Timer/Counter2 */	
-	TIM2_overflow_4s();
+    /* Configuration of 8-bit Timer/Counter2 *
+	 Set prescaler and enable overflow interrupt */
+	TIM2_overflow_16ms();
 	TIM2_overflow_interrupt_enable();
 
     // Enables interrupts by setting the global interrupt mask
