@@ -11,7 +11,7 @@
 | [01-tools](Labs/01-Tools) | Lab 1: Tools:ATMEL studio 7; Simulide|
 | [02-leds](Labs/02-Leds)| Lab 2:Leds,buttons |
 | [03-gpio](Labs/03-gpio)| Lab 3:Own header creating |
-| ... | Lab 4: ... |
+| [04-interrupts](Labs/04-interrupts) | Lab 4: Timers,interrupts |
 | ... | Lab 5: ... |
 | ... | Lab 6: ... |
 | ... | Lab 7: ... |
