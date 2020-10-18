@@ -60,3 +60,15 @@ Shields are boards that can be attached to an Arduino board, significantly expan
 | 0x0024 | USART_RX | `USART0_RX_vect` | USART Rx complete |
 | 0x002A | ADC |  `ADC_vect `   | ADC conversion complete |
 | 0x0030 | TWI |  `TWI_vect  ` | 2-wire serial interface |
+
+&nbsp;
+
+
+| **Module** | **Description** | **MCU pin** | **Arduino pin** |
+| :-: | :-: | :-: | :-: |
+| Timer/Counter0 | OC0A |   PD6  |  6  |
+|                | OC0B |   PD5  |  5   |
+| Timer/Counter1 | OC1A |   PB1  | 9   |
+|                | OC1B | PB2 | 10 |
+| Timer/Counter2 | OC2A | PB3 | 11  |
+|                | OC2B |   PD3  |   3 |
