@@ -3,29 +3,29 @@
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000290  2**0
+  0 .data         00000000  00800100  00800100  00000296  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000023c  00000000  00000000  00000054  2**1
+  1 .text         00000242  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000290  2**0
+  2 .comment      00000030  00000000  00000000  00000296  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002c0  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002c8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000088  00000000  00000000  00000300  2**0
+  4 .debug_aranges 00000088  00000000  00000000  00000308  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000a07  00000000  00000000  00000388  2**0
+  5 .debug_info   00000a07  00000000  00000000  00000390  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000006e5  00000000  00000000  00000d8f  2**0
+  6 .debug_abbrev 000006e5  00000000  00000000  00000d97  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000003c1  00000000  00000000  00001474  2**0
+  7 .debug_line   000003c1  00000000  00000000  0000147c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000001b0  00000000  00000000  00001838  2**2
+  8 .debug_frame  000001b0  00000000  00000000  00001840  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000042c  00000000  00000000  000019e8  2**0
+  9 .debug_str    0000042c  00000000  00000000  000019f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000002f3  00000000  00000000  00001e14  2**0
+ 10 .debug_loc    000002f3  00000000  00000000  00001e1c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000068  00000000  00000000  00002107  2**0
+ 11 .debug_ranges 00000068  00000000  00000000  0000210f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -40,14 +40,14 @@ Disassembly of section .text:
   18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
   1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
   20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  24:	0c 94 f5 00 	jmp	0x1ea	; 0x1ea <__vector_9>
+  24:	0c 94 f8 00 	jmp	0x1f0	; 0x1f0 <__vector_9>
   28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
   2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
   30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  34:	0c 94 ce 00 	jmp	0x19c	; 0x19c <__vector_13>
+  34:	0c 94 d1 00 	jmp	0x1a2	; 0x1a2 <__vector_13>
   38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
   3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  40:	0c 94 a7 00 	jmp	0x14e	; 0x14e <__vector_16>
+  40:	0c 94 aa 00 	jmp	0x154	; 0x154 <__vector_16>
   44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
   48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
   4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
@@ -66,7 +66,7 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 65 00 	call	0xca	; 0xca <main>
-  78:	0c 94 1c 01 	jmp	0x238	; 0x238 <_exit>
+  78:	0c 94 1f 01 	jmp	0x23e	; 0x23e <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -168,12 +168,12 @@ int main(void)
 	/* Configuration of 8-bit Timer/Counter0 *
 	 Set prescaler and enable overflow interrupt */
 	
-	TIM0_overflow_1ms();
+	TIM0_overflow_16ms();
  106:	85 b5       	in	r24, 0x25	; 37
- 108:	8c 7f       	andi	r24, 0xFC	; 252
+ 108:	8e 7f       	andi	r24, 0xFE	; 254
  10a:	85 bd       	out	0x25, r24	; 37
  10c:	85 b5       	in	r24, 0x25	; 37
- 10e:	84 60       	ori	r24, 0x04	; 4
+ 10e:	85 60       	ori	r24, 0x05	; 5
  110:	85 bd       	out	0x25, r24	; 37
 	TIM0_overflow_interrupt_enable();
  112:	ee e6       	ldi	r30, 0x6E	; 110
@@ -184,14 +184,14 @@ int main(void)
 	
 	/* Configuration of 16-bit Timer/Counter1
      * Set prescaler and enable overflow interrupt */
-    TIM1_overflow_1s();
+	TIM1_overflow_33ms();
  11c:	e1 e8       	ldi	r30, 0x81	; 129
  11e:	f0 e0       	ldi	r31, 0x00	; 0
  120:	80 81       	ld	r24, Z
- 122:	8c 7f       	andi	r24, 0xFC	; 252
+ 122:	8a 7f       	andi	r24, 0xFA	; 250
  124:	80 83       	st	Z, r24
  126:	80 81       	ld	r24, Z
- 128:	84 60       	ori	r24, 0x04	; 4
+ 128:	82 60       	ori	r24, 0x02	; 2
  12a:	80 83       	st	Z, r24
     TIM1_overflow_interrupt_enable();
  12c:	ef e6       	ldi	r30, 0x6F	; 111
@@ -202,175 +202,175 @@ int main(void)
 
     /* Configuration of 8-bit Timer/Counter2 *
 	 Set prescaler and enable overflow interrupt */
-	TIM2_overflow_16ms();
+	TIM2_overflow_512u();
  136:	e1 eb       	ldi	r30, 0xB1	; 177
  138:	f0 e0       	ldi	r31, 0x00	; 0
  13a:	80 81       	ld	r24, Z
- 13c:	87 60       	ori	r24, 0x07	; 7
+ 13c:	8e 7f       	andi	r24, 0xFE	; 254
  13e:	80 83       	st	Z, r24
+ 140:	80 81       	ld	r24, Z
+ 142:	86 60       	ori	r24, 0x06	; 6
+ 144:	80 83       	st	Z, r24
 	TIM2_overflow_interrupt_enable();
- 140:	e0 e7       	ldi	r30, 0x70	; 112
- 142:	f0 e0       	ldi	r31, 0x00	; 0
- 144:	80 81       	ld	r24, Z
- 146:	81 60       	ori	r24, 0x01	; 1
- 148:	80 83       	st	Z, r24
+ 146:	e0 e7       	ldi	r30, 0x70	; 112
+ 148:	f0 e0       	ldi	r31, 0x00	; 0
+ 14a:	80 81       	ld	r24, Z
+ 14c:	81 60       	ori	r24, 0x01	; 1
+ 14e:	80 83       	st	Z, r24
 
     // Enables interrupts by setting the global interrupt mask
-    sei();
- 14a:	78 94       	sei
- 14c:	ff cf       	rjmp	.-2      	; 0x14c <main+0x82>
+   sei();
+ 150:	78 94       	sei
+ 152:	ff cf       	rjmp	.-2      	; 0x152 <main+0x88>
 
-0000014e <__vector_16>:
+00000154 <__vector_16>:
 /* Interrupt service routines ----------------------------------------*/
 /**
  * ISR starts when Timer/Counter0 overflows. Toggle LED D1 on 
  * Multi-function shield. */
 ISR(TIMER0_OVF_vect)
 {
- 14e:	1f 92       	push	r1
- 150:	0f 92       	push	r0
- 152:	0f b6       	in	r0, 0x3f	; 63
- 154:	0f 92       	push	r0
- 156:	11 24       	eor	r1, r1
- 158:	2f 93       	push	r18
- 15a:	3f 93       	push	r19
- 15c:	4f 93       	push	r20
- 15e:	5f 93       	push	r21
- 160:	6f 93       	push	r22
- 162:	7f 93       	push	r23
- 164:	8f 93       	push	r24
- 166:	9f 93       	push	r25
- 168:	af 93       	push	r26
- 16a:	bf 93       	push	r27
- 16c:	ef 93       	push	r30
- 16e:	ff 93       	push	r31
+ 154:	1f 92       	push	r1
+ 156:	0f 92       	push	r0
+ 158:	0f b6       	in	r0, 0x3f	; 63
+ 15a:	0f 92       	push	r0
+ 15c:	11 24       	eor	r1, r1
+ 15e:	2f 93       	push	r18
+ 160:	3f 93       	push	r19
+ 162:	4f 93       	push	r20
+ 164:	5f 93       	push	r21
+ 166:	6f 93       	push	r22
+ 168:	7f 93       	push	r23
+ 16a:	8f 93       	push	r24
+ 16c:	9f 93       	push	r25
+ 16e:	af 93       	push	r26
+ 170:	bf 93       	push	r27
+ 172:	ef 93       	push	r30
+ 174:	ff 93       	push	r31
 	// WRITE YOUR CODE HERE
 	GPIO_toggle(&PORTB,LED_D1);
- 170:	65 e0       	ldi	r22, 0x05	; 5
- 172:	85 e2       	ldi	r24, 0x25	; 37
- 174:	90 e0       	ldi	r25, 0x00	; 0
- 176:	0e 94 59 00 	call	0xb2	; 0xb2 <GPIO_toggle>
+ 176:	65 e0       	ldi	r22, 0x05	; 5
+ 178:	85 e2       	ldi	r24, 0x25	; 37
+ 17a:	90 e0       	ldi	r25, 0x00	; 0
+ 17c:	0e 94 59 00 	call	0xb2	; 0xb2 <GPIO_toggle>
 	
 }
- 17a:	ff 91       	pop	r31
- 17c:	ef 91       	pop	r30
- 17e:	bf 91       	pop	r27
- 180:	af 91       	pop	r26
- 182:	9f 91       	pop	r25
- 184:	8f 91       	pop	r24
- 186:	7f 91       	pop	r23
- 188:	6f 91       	pop	r22
- 18a:	5f 91       	pop	r21
- 18c:	4f 91       	pop	r20
- 18e:	3f 91       	pop	r19
- 190:	2f 91       	pop	r18
- 192:	0f 90       	pop	r0
- 194:	0f be       	out	0x3f, r0	; 63
- 196:	0f 90       	pop	r0
- 198:	1f 90       	pop	r1
- 19a:	18 95       	reti
+ 180:	ff 91       	pop	r31
+ 182:	ef 91       	pop	r30
+ 184:	bf 91       	pop	r27
+ 186:	af 91       	pop	r26
+ 188:	9f 91       	pop	r25
+ 18a:	8f 91       	pop	r24
+ 18c:	7f 91       	pop	r23
+ 18e:	6f 91       	pop	r22
+ 190:	5f 91       	pop	r21
+ 192:	4f 91       	pop	r20
+ 194:	3f 91       	pop	r19
+ 196:	2f 91       	pop	r18
+ 198:	0f 90       	pop	r0
+ 19a:	0f be       	out	0x3f, r0	; 63
+ 19c:	0f 90       	pop	r0
+ 19e:	1f 90       	pop	r1
+ 1a0:	18 95       	reti
 
-0000019c <__vector_13>:
+000001a2 <__vector_13>:
 
 /**
  * ISR starts when Timer/Counter1 overflows. Toggle LED D2 on 
  * Multi-function shield. */
 ISR(TIMER1_OVF_vect)
 {
- 19c:	1f 92       	push	r1
- 19e:	0f 92       	push	r0
- 1a0:	0f b6       	in	r0, 0x3f	; 63
- 1a2:	0f 92       	push	r0
- 1a4:	11 24       	eor	r1, r1
- 1a6:	2f 93       	push	r18
- 1a8:	3f 93       	push	r19
- 1aa:	4f 93       	push	r20
- 1ac:	5f 93       	push	r21
- 1ae:	6f 93       	push	r22
- 1b0:	7f 93       	push	r23
- 1b2:	8f 93       	push	r24
- 1b4:	9f 93       	push	r25
- 1b6:	af 93       	push	r26
- 1b8:	bf 93       	push	r27
- 1ba:	ef 93       	push	r30
- 1bc:	ff 93       	push	r31
-	// WRITE YOUR CODE HERE
+ 1a2:	1f 92       	push	r1
+ 1a4:	0f 92       	push	r0
+ 1a6:	0f b6       	in	r0, 0x3f	; 63
+ 1a8:	0f 92       	push	r0
+ 1aa:	11 24       	eor	r1, r1
+ 1ac:	2f 93       	push	r18
+ 1ae:	3f 93       	push	r19
+ 1b0:	4f 93       	push	r20
+ 1b2:	5f 93       	push	r21
+ 1b4:	6f 93       	push	r22
+ 1b6:	7f 93       	push	r23
+ 1b8:	8f 93       	push	r24
+ 1ba:	9f 93       	push	r25
+ 1bc:	af 93       	push	r26
+ 1be:	bf 93       	push	r27
+ 1c0:	ef 93       	push	r30
+ 1c2:	ff 93       	push	r31
 	GPIO_toggle(&PORTB,LED_D2);
- 1be:	64 e0       	ldi	r22, 0x04	; 4
- 1c0:	85 e2       	ldi	r24, 0x25	; 37
- 1c2:	90 e0       	ldi	r25, 0x00	; 0
- 1c4:	0e 94 59 00 	call	0xb2	; 0xb2 <GPIO_toggle>
+ 1c4:	64 e0       	ldi	r22, 0x04	; 4
+ 1c6:	85 e2       	ldi	r24, 0x25	; 37
+ 1c8:	90 e0       	ldi	r25, 0x00	; 0
+ 1ca:	0e 94 59 00 	call	0xb2	; 0xb2 <GPIO_toggle>
 	
 }
- 1c8:	ff 91       	pop	r31
- 1ca:	ef 91       	pop	r30
- 1cc:	bf 91       	pop	r27
- 1ce:	af 91       	pop	r26
- 1d0:	9f 91       	pop	r25
- 1d2:	8f 91       	pop	r24
- 1d4:	7f 91       	pop	r23
- 1d6:	6f 91       	pop	r22
- 1d8:	5f 91       	pop	r21
- 1da:	4f 91       	pop	r20
- 1dc:	3f 91       	pop	r19
- 1de:	2f 91       	pop	r18
- 1e0:	0f 90       	pop	r0
- 1e2:	0f be       	out	0x3f, r0	; 63
- 1e4:	0f 90       	pop	r0
- 1e6:	1f 90       	pop	r1
- 1e8:	18 95       	reti
+ 1ce:	ff 91       	pop	r31
+ 1d0:	ef 91       	pop	r30
+ 1d2:	bf 91       	pop	r27
+ 1d4:	af 91       	pop	r26
+ 1d6:	9f 91       	pop	r25
+ 1d8:	8f 91       	pop	r24
+ 1da:	7f 91       	pop	r23
+ 1dc:	6f 91       	pop	r22
+ 1de:	5f 91       	pop	r21
+ 1e0:	4f 91       	pop	r20
+ 1e2:	3f 91       	pop	r19
+ 1e4:	2f 91       	pop	r18
+ 1e6:	0f 90       	pop	r0
+ 1e8:	0f be       	out	0x3f, r0	; 63
+ 1ea:	0f 90       	pop	r0
+ 1ec:	1f 90       	pop	r1
+ 1ee:	18 95       	reti
 
-000001ea <__vector_9>:
+000001f0 <__vector_9>:
 /**
  * ISR starts when Timer/Counter2 overflows. Toggle LED D3 on 
  * Multi-function shield. */
 
 ISR(TIMER2_OVF_vect)
 {
- 1ea:	1f 92       	push	r1
- 1ec:	0f 92       	push	r0
- 1ee:	0f b6       	in	r0, 0x3f	; 63
- 1f0:	0f 92       	push	r0
- 1f2:	11 24       	eor	r1, r1
- 1f4:	2f 93       	push	r18
- 1f6:	3f 93       	push	r19
- 1f8:	4f 93       	push	r20
- 1fa:	5f 93       	push	r21
- 1fc:	6f 93       	push	r22
- 1fe:	7f 93       	push	r23
- 200:	8f 93       	push	r24
- 202:	9f 93       	push	r25
- 204:	af 93       	push	r26
- 206:	bf 93       	push	r27
- 208:	ef 93       	push	r30
- 20a:	ff 93       	push	r31
-	// WRITE YOUR CODE HERE
+ 1f0:	1f 92       	push	r1
+ 1f2:	0f 92       	push	r0
+ 1f4:	0f b6       	in	r0, 0x3f	; 63
+ 1f6:	0f 92       	push	r0
+ 1f8:	11 24       	eor	r1, r1
+ 1fa:	2f 93       	push	r18
+ 1fc:	3f 93       	push	r19
+ 1fe:	4f 93       	push	r20
+ 200:	5f 93       	push	r21
+ 202:	6f 93       	push	r22
+ 204:	7f 93       	push	r23
+ 206:	8f 93       	push	r24
+ 208:	9f 93       	push	r25
+ 20a:	af 93       	push	r26
+ 20c:	bf 93       	push	r27
+ 20e:	ef 93       	push	r30
+ 210:	ff 93       	push	r31
 	GPIO_toggle(&PORTB,LED_D3);
- 20c:	63 e0       	ldi	r22, 0x03	; 3
- 20e:	85 e2       	ldi	r24, 0x25	; 37
- 210:	90 e0       	ldi	r25, 0x00	; 0
- 212:	0e 94 59 00 	call	0xb2	; 0xb2 <GPIO_toggle>
-	
- 216:	ff 91       	pop	r31
- 218:	ef 91       	pop	r30
- 21a:	bf 91       	pop	r27
- 21c:	af 91       	pop	r26
- 21e:	9f 91       	pop	r25
- 220:	8f 91       	pop	r24
- 222:	7f 91       	pop	r23
- 224:	6f 91       	pop	r22
- 226:	5f 91       	pop	r21
- 228:	4f 91       	pop	r20
- 22a:	3f 91       	pop	r19
- 22c:	2f 91       	pop	r18
- 22e:	0f 90       	pop	r0
- 230:	0f be       	out	0x3f, r0	; 63
- 232:	0f 90       	pop	r0
- 234:	1f 90       	pop	r1
- 236:	18 95       	reti
+ 212:	63 e0       	ldi	r22, 0x03	; 3
+ 214:	85 e2       	ldi	r24, 0x25	; 37
+ 216:	90 e0       	ldi	r25, 0x00	; 0
+ 218:	0e 94 59 00 	call	0xb2	; 0xb2 <GPIO_toggle>
+ 21c:	ff 91       	pop	r31
+ 21e:	ef 91       	pop	r30
+ 220:	bf 91       	pop	r27
+ 222:	af 91       	pop	r26
+ 224:	9f 91       	pop	r25
+ 226:	8f 91       	pop	r24
+ 228:	7f 91       	pop	r23
+ 22a:	6f 91       	pop	r22
+ 22c:	5f 91       	pop	r21
+ 22e:	4f 91       	pop	r20
+ 230:	3f 91       	pop	r19
+ 232:	2f 91       	pop	r18
+ 234:	0f 90       	pop	r0
+ 236:	0f be       	out	0x3f, r0	; 63
+ 238:	0f 90       	pop	r0
+ 23a:	1f 90       	pop	r1
+ 23c:	18 95       	reti
 
-00000238 <_exit>:
- 238:	f8 94       	cli
+0000023e <_exit>:
+ 23e:	f8 94       	cli
 
-0000023a <__stop_program>:
- 23a:	ff cf       	rjmp	.-2      	; 0x23a <__stop_program>
+00000240 <__stop_program>:
+ 240:	ff cf       	rjmp	.-2      	; 0x240 <__stop_program>

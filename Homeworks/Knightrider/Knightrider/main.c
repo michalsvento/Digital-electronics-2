@@ -26,7 +26,9 @@
 /* Includes ----------------------------------------------------------*/
 #include <util/delay.h>     // Functions for busy-wait delay loops
 #include <avr/io.h>         // AVR device-specific IO definitions
+#include <avr/interrupt.h>
 #include "gpio.h"
+#include "timer.h"
 /*
  * Main function where the program execution begins. Toggle two LEDs 
  * when a push button is pressed.
@@ -49,68 +51,98 @@ int main(void)
 	
 	GPIO_config_input_pullup(&DDRD,BTN);
 	
+	/* Configuration of 16-bit Timer/Counter1
+     * Set prescaler and enable overflow interrupt */
+    TIM1_overflow_1s();
+    TIM1_overflow_interrupt_enable();
+
+    /* Configuration of 8-bit Timer/Counter2 *
+	 Set prescaler and enable overflow interrupt */
+	TIM2_overflow_1ms();
+	TIM2_overflow_interrupt_enable();
 	
+	sei();
 	
     // Infinite loop
     while (1)
     {	
-		//uint8_t i;
-        // Pause several milliseconds
-		
-		/*PORTB = PORTB ^ (1<<LED_1);
 
-		for (i=1; i<=4 ; i++)
-		{
-			PORTB=(PORTB<<1);
-			_delay_ms(BLINK_DELAY);
-			}
-		for (i=4;i>=1;i--)
-		{
-			PORTB=(PORTB>>LED_1);
-			_delay_ms(BLINK_DELAY);
-		}
-		
-    PORTB = PORTB & ~(1<<LED_1) ;
-	*/
 		if(!GPIO_read(&PIND,BTN))
 		{
-		
+			ISR(TIMER1_OVF_vect)
+			{
+				GPIO_toggle(&PORTB,LED_1);
+				//}
+				
+				//ISR(TIMER1_OVF_vect){
+				GPIO_toggle(&PORTB,LED_1);
+				GPIO_toggle(&PORTB,LED_2);
+				//}
+				
+				//ISR(TIMER1_OVF_vect){
+				GPIO_toggle(&PORTB,LED_2);
+				GPIO_toggle(&PORTB,LED_3);
+				
+				//ISR(TIMER1_OVF_vect){
+				GPIO_toggle(&PORTB,LED_3);
+				GPIO_toggle(&PORTB,LED_4);
+				//ISR(TIMER1_OVF_vect){
+				GPIO_toggle(&PORTB,LED_4);
+				
+				GPIO_toggle(&PORTB,LED_5);
+				GPIO_toggle(&PORTB,LED_5);
+				GPIO_toggle(&PORTB,LED_4);
+				
+				GPIO_toggle(&PORTB,LED_4);
+				GPIO_toggle(&PORTB,LED_3);
+				
+				GPIO_toggle(&PORTB,LED_3);
+				GPIO_toggle(&PORTB,LED_2);
+				
+				
+				GPIO_toggle(&PORTB,LED_2);
+			}
+		}
+		else
+		ISR(TIMER2_OVF_vect){
 			GPIO_toggle(&PORTB,LED_1);
-			_delay_ms(BLINK_DELAY);
+			//}
+			
+			//ISR(TIMER1_OVF_vect){
 			GPIO_toggle(&PORTB,LED_1);
-			GPIO_toggle(&PORTB,LED_2);	
-		
-			_delay_ms(BLINK_DELAY);
+			GPIO_toggle(&PORTB,LED_2);
+			//}
+			
+			//ISR(TIMER1_OVF_vect){
 			GPIO_toggle(&PORTB,LED_2);
 			GPIO_toggle(&PORTB,LED_3);
-		
-			_delay_ms(BLINK_DELAY);
+			
+			//ISR(TIMER1_OVF_vect){
 			GPIO_toggle(&PORTB,LED_3);
 			GPIO_toggle(&PORTB,LED_4);
-		
-			_delay_ms(BLINK_DELAY);
+			//ISR(TIMER1_OVF_vect){
 			GPIO_toggle(&PORTB,LED_4);
+			
 			GPIO_toggle(&PORTB,LED_5);
-		
-			_delay_ms(BLINK_DELAY);
 			GPIO_toggle(&PORTB,LED_5);
 			GPIO_toggle(&PORTB,LED_4);
-		
-			_delay_ms(BLINK_DELAY);
+			
 			GPIO_toggle(&PORTB,LED_4);
 			GPIO_toggle(&PORTB,LED_3);
-		
-			_delay_ms(BLINK_DELAY);
+			
 			GPIO_toggle(&PORTB,LED_3);
 			GPIO_toggle(&PORTB,LED_2);
-		
-			_delay_ms(BLINK_DELAY);
+			
+			
 			GPIO_toggle(&PORTB,LED_2);
 		}
-    }
+		
+		
 	return 0;
 
     // Will never reach this
     
 }
+
+
 

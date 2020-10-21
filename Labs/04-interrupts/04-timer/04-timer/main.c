@@ -41,21 +41,21 @@ int main(void)
 	/* Configuration of 8-bit Timer/Counter0 *
 	 Set prescaler and enable overflow interrupt */
 	
-	TIM0_overflow_1ms();
+	TIM0_overflow_16ms();
 	TIM0_overflow_interrupt_enable();
 	
 	/* Configuration of 16-bit Timer/Counter1
      * Set prescaler and enable overflow interrupt */
-    TIM1_overflow_1s();
+	TIM1_overflow_33ms();
     TIM1_overflow_interrupt_enable();
 
     /* Configuration of 8-bit Timer/Counter2 *
 	 Set prescaler and enable overflow interrupt */
-	TIM2_overflow_16ms();
+	TIM2_overflow_512u();
 	TIM2_overflow_interrupt_enable();
 
     // Enables interrupts by setting the global interrupt mask
-    sei();
+   sei();
 
     // Infinite loop
     while (1)
@@ -84,7 +84,6 @@ ISR(TIMER0_OVF_vect)
  * Multi-function shield. */
 ISR(TIMER1_OVF_vect)
 {
-	// WRITE YOUR CODE HERE
 	GPIO_toggle(&PORTB,LED_D2);
 	
 }
@@ -95,7 +94,5 @@ ISR(TIMER1_OVF_vect)
 
 ISR(TIMER2_OVF_vect)
 {
-	// WRITE YOUR CODE HERE
 	GPIO_toggle(&PORTB,LED_D3);
-	
 }
