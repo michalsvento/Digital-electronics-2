@@ -12,7 +12,7 @@
 | [02-leds](Labs/02-Leds)| Lab 2:Leds,buttons |
 | [03-gpio](Labs/03-gpio)| Lab 3:Own header creating |
 | [04-interrupts](Labs/04-interrupts) | Lab 4: Timers,interrupts |
-| ... | Lab 5: ... |
+| [05-segments](Labs/05-segments) | Lab 5: 7-segment display |
 | ... | Lab 6: ... |
 | ... | Lab 7: ... |
 | ... | Lab 8: ... |
