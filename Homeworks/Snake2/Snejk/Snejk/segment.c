@@ -53,16 +53,7 @@ void SEG_init(void)
 void SEG_update_shift_regs(uint8_t segments, uint8_t position,uint8_t DP)
 {
 	uint8_t bit_number;
-	if(DP!=0)
-    {
-		segments = segment_value[segments];     // 0, 1, ..., 9
-	}
-	else
-	{
-		segments = segment_value[segments] & 0b11111110;
-	}
-		
-		
+	segments = segment_value[segments];     // 0, 1, ..., 9	
 	position = segment_position[position];  // 0, 1, 2, 3
 
     // Pull LATCH, CLK, and DATA low

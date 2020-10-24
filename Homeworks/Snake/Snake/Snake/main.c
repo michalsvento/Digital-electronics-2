@@ -15,10 +15,11 @@
 #include "timer.h"          // Timer library for AVR-GCC
 #include "segment.h"        // Seven-segment display library for AVR-GCC
 
-static uint8_t units = 0;
-static uint8_t decimals = 0;
-static uint8_t seconds	=0;
-static uint8_t tens = 0;
+/* Variables ---------------------------------------------------------*/
+
+static uint8_t  led=0;
+static uint8_t pos=0;
+
 
 
 /* Function definitions ----------------------------------------------*/
@@ -33,16 +34,18 @@ int main(void)
     SEG_init();
 
     // Test of SSD: display number '3' at position 0
-    //SEG_update_shift_regs(0,0,0);
+    SEG_update_shift_regs(0,0);
 	
-    /* Configure 8-bit Timer/Counter0
-     * Set prescaler and enable overflow interrupt */
-	TIM0_overflow_4ms();
+	/* Configure 8-bit Timer/Counter0
+	 * Set prescaler and enable overflow interrupt */
+	TIM0_overflow_16ms();
 	TIM0_overflow_interrupt_enable();
-    /* Configure 16-bit Timer/Counter1
-     * Set prescaler and enable overflow interrupt */
-	TIM1_overflow_262ms();
+	
+	/* Configure 16-bit Timer/Counter1
+    * Set prescaler and enable overflow interrupt */
+	TIM1_overflow_33ms();
 	TIM1_overflow_interrupt_enable();
+	
     // Enables interrupts by setting the global interrupt mask
 	sei();
     // Infinite loop
@@ -57,72 +60,65 @@ int main(void)
 }
 
 /* Interrupt service routines ----------------------------------------*/
-/**
- * ISR starts when Timer/Counter0 overflows. Increment decimal counter value 
- */
-ISR(TIMER2_OVF_vect)
-{
-	
-	static uint8_t position = 0;
-	/*if(position==0)
-	{
-		SEG_update_shift_regs(units,0);	
-		position=1;
-	}
-	else
-	{
-		SEG_update_shift_regs(decimals,1);
-		position=0;
-	}
-	*/
-	switch(position){
-		case 0:
-			SEG_update_shift_regs(units,0,1);
-			position=1;
-			break;
-		case 1:
-			SEG_update_shift_regs(decimals,1,1);
-			position=2;
-			break;
-		case 2:
-			SEG_update_shift_regs(seconds,2,0);
-			position=3;
-			break;
-		case 3:
-			SEG_update_shift_regs(tens,3,1);
-			position=0;
-			break;
-		default:
-			SEG_update_shift_regs(units,0,1);
-			position=1;
-			break;
-	}
-			
-}
 
-/* ISR starts when Timer/Counter1 overflows. Display value on SSD
- */
+/**
+// ISR starts when Timer/Counter0 overflows. Counts the segment &
+* position of SSD
+**/
+/*
+ISR(TIMER1_OVF_vect){
+		static uint8_t  led=0;
+		static uint8_t pos=0;
+		SEG_update_shift_regs(led,pos);
+		led++;
+		if(5<led)
+		{
+			led=0;
+		}
+}
+*/
+/**
+// ISR starts when Timer/Counter1 overflows. Counts the segment & 
+* position of SSD  
+**/
 
 ISR(TIMER1_OVF_vect)
-{
-	units++;
-	if(units>9)
+{	
+	SEG_update_shift_regs(led,pos);
+	
+	static uint8_t Ndisplays=3;		//Number of displays
+	++led;
+	
+	if(led<=4)
 	{
-		units=0;
-		decimals++;
-			if(decimals>5)
+		if(led==4)			// last segment position 0
+		{
+			if(pos<(Ndisplays-1))		
 			{
-				decimals=0;
-				seconds++;
-					if(seconds> 9)
-					{
-						seconds=0;
-						tens++;
-							if(tens>5)
-							{
-								tens=0;
-							}
-					}
+				pos++;		// move to position 3(last)
+				led--;		//	SegmentD doesn't move
 			}
+		}
 	}
+	
+	if( (led<=7)  && (led>4 ))
+	{
+		
+		if(led==7)
+		{
+			if(pos>0)
+			{
+				pos--;
+				led--;
+			}
+			else
+			{
+				led=1;
+			}
+		}
+	}
+
+		
 }
+
+

@@ -39,7 +39,16 @@ uint8_t segment_position[] = {
 	0b01000000,		// Position 2
 	0b10000000,		// Position 3
 	};
-
+uint8_t snake_value[]={
+	0b01111111,		//segment A
+	0b10111111,		//segment B
+	0b11011111,		//segment C
+	0b11101111,		//segment D
+	0b11110111,		//segment E
+	0b11111011,		//segment F
+	0b01111111,		//segment A
+	
+	};
 /* Function definitions ----------------------------------------------*/
 void SEG_init(void)
 {
@@ -49,34 +58,28 @@ void SEG_init(void)
     GPIO_config_output(&DDRB, SEGMENT_DATA);
 }
 
+
+
 /*--------------------------------------------------------------------*/
-void SEG_update_shift_regs(uint8_t segments, uint8_t position,uint8_t DP)
+/* SEG_snake */
+void SEG_update_shift_regs(uint8_t snake, uint8_t position)
 {
 	uint8_t bit_number;
-	if(DP!=0)
-    {
-		segments = segment_value[segments];     // 0, 1, ..., 9
-	}
-	else
-	{
-		segments = segment_value[segments] & 0b11111110;
-	}
-		
-		
+	snake = snake_value[snake];     // 0, 1, ..., 9
 	position = segment_position[position];  // 0, 1, 2, 3
 
-    // Pull LATCH, CLK, and DATA low
+	// Pull LATCH, CLK, and DATA low
 	GPIO_write_low(&PORTB,SEGMENT_DATA);
 	GPIO_write_low(&PORTD,SEGMENT_CLK);
 	GPIO_write_low(&PORTD, SEGMENT_LATCH);
-    // Wait 1 us
+	// Wait 1 us
 	_delay_us(1);
-    // Loop through the 1st byte (segments)
-    // a b c d e f g DP (active low values)
-    for (bit_number = 0; bit_number < 8; bit_number++)
-    {
+	// Loop through the 1st byte (segments)
+	// a b c d e f g DP (active low values)
+	for (bit_number = 0; bit_number < 8; bit_number++)
+	{
 		// Output DATA value (bit 0 of "segments")
-		if ((segments & 1) == 0)
+		if ((snake & 1) == 0)
 		{
 			GPIO_write_low(&PORTB,SEGMENT_DATA);
 		}
@@ -93,14 +96,14 @@ void SEG_update_shift_regs(uint8_t segments, uint8_t position,uint8_t DP)
 		// Pull CLK low
 		GPIO_write_low(&PORTD,SEGMENT_CLK);
 		// Shift "segments"
-		segments = segments >> 1;
-    }
+		snake = snake >> 1;
+	}
 
-    // Loop through the 2nd byte (position)
-    // p3 p2 p1 p0 . . . . (active high values)
-    for (bit_number = 0; bit_number < 8; bit_number++)
-    {
-        // Output DATA value (bit 0 of "position")
+	// Loop through the 2nd byte (position)
+	// p3 p2 p1 p0 . . . . (active high values)
+	for (bit_number = 0; bit_number < 8; bit_number++)
+	{
+		// Output DATA value (bit 0 of "position")
 		if ((position & 1) == 0)
 		{
 			GPIO_write_low(&PORTB,SEGMENT_DATA);
@@ -117,17 +120,15 @@ void SEG_update_shift_regs(uint8_t segments, uint8_t position,uint8_t DP)
 		_delay_us(1);
 		// Pull CLK low
 		GPIO_write_low(&PORTD,SEGMENT_CLK);
-        // Shift "position"
-        position = position >> 1;
-    }
+		// Shift "position"
+		position = position >> 1;
+	}
 
-    // Pull LATCH high
+	// Pull LATCH high
 	GPIO_write_high(&PORTD,SEGMENT_LATCH);
-    // Wait 1 us
+	// Wait 1 us
 	_delay_us(1);
 }
-
-
 
 
 /*--------------------------------------------------------------------*/
