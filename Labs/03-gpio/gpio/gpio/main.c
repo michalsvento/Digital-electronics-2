@@ -21,6 +21,7 @@
 
 /* Includes ----------------------------------------------------------*/
 #include <util/delay.h>     // Functions for busy-wait delay loops
+#include <avr/interrupt.h>
 #include <avr/io.h>         // AVR device-specific IO definitions
 #include "gpio.h"           // GPIO library for AVR-GCC
 
@@ -42,12 +43,18 @@ int main(void)
     /* push button */
     // WRITE YOUR CODE HERE
 	GPIO_config_input_pullup(&DDRD,BTN);
+	
+	PCICR |= (1<<PCIE2);
+	PCMSK2 |= (1<<PCINT16);
+	
+	sei();
+	
+	
 
     // Infinite loop
     while (1)
     {
-        // Pause several milliseconds
-        _delay_ms(BLINK_DELAY);
+        
 		if(!GPIO_read(&PIND, BTN))  // active low BTN
 		{
 			GPIO_toggle(&PORTB,LED_GREEN);
@@ -58,6 +65,16 @@ int main(void)
 
     // Will never reach this
     return 0;
+}
+
+ISR(PCINT0_vect)
+{
+	if(!GPIO_read(&PIND, BTN))  // active low BTN
+	{
+		GPIO_toggle(&PORTB,LED_GREEN);
+		GPIO_toggle(&PORTC,LED_RED);
+	}
+	
 }
 
 

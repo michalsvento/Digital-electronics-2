@@ -19,16 +19,13 @@
 // Active-low digits 0 to 9
 uint8_t segment_value[] = {
 	// abcdefgDP
-	0b00000011,		// Digit 0
-	0b10011111,		// Digit 1
-	0b00100101,     // Digit 2
-	0b00001101,     // Digit 3
-	0b10011001,		// Digit 4		
-	0b01001001,		// Digit 5
-	0b01000001,		// Digit 6
-	0b00011111,		// Digit 7
-	0b00000001,		// Digit 8
-	0b00001001,		// Digit 9
+	0b01111111,		//segment A
+	0b10111111,		//segment B
+	0b11011111,		//segment C
+	0b11101111,		//segment D
+	0b11110111,		//segment E
+	0b11111011,		//segment F
+	0b01111111,		//segment A
 	};
 
 // Active-high position 0 to 3
@@ -50,7 +47,7 @@ void SEG_init(void)
 }
 
 /*--------------------------------------------------------------------*/
-void SEG_update_shift_regs(uint8_t segments, uint8_t position,uint8_t DP)
+void SEG_update_shift_regs(uint8_t segments, uint8_t position)
 {
 	uint8_t bit_number;
 	segments = segment_value[segments];     // 0, 1, ..., 9	

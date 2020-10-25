@@ -8,20 +8,31 @@
  * This work is licensed under the terms of the MIT license.
  * 
  **********************************************************************/
-
+#define  BTN PB1
+#ifndef F_CPU
+#define F_CPU 16000000
+#endif
 /* Includes ----------------------------------------------------------*/
+#include <util/delay.h>
 #include <avr/io.h>         // AVR device-specific IO definitions
 #include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
 #include "timer.h"          // Timer library for AVR-GCC
 #include "segment.h"        // Seven-segment display library for AVR-GCC
+#include "gpio.h"
+
+
+
 
 static uint8_t units = 0;
 static uint8_t decimals = 0;
 static uint8_t seconds	=0;
 static uint8_t tens = 0;
 
-
 /* Function definitions ----------------------------------------------*/
+
+
+
+
 /**
  * Main function where the program execution begins. Display decimal 
  * counter values on SSD (Seven-segment display) when 16-bit 
@@ -31,9 +42,12 @@ int main(void)
 {
     // Configure SSD signals
     SEG_init();
-
-    // Test of SSD: display number '3' at position 0
-    //SEG_update_shift_regs(0,0,0);
+	
+	PCICR = PCICR | (1 << PCIE0);
+	PCMSK1 = PCMSK1 |(1 << PCINT1);
+	
+	GPIO_config_input_pullup(&DDRB,BTN);
+	
 	
     /* Configure 8-bit Timer/Counter0
      * Set prescaler and enable overflow interrupt */
@@ -50,6 +64,7 @@ int main(void)
     {
         /* Empty loop. All subsequent operations are performed exclusively 
          * inside interrupt service routines ISRs */
+
     }
 
     // Will never reach this
@@ -57,24 +72,26 @@ int main(void)
 }
 
 /* Interrupt service routines ----------------------------------------*/
+ISR(PCINT0_vect)
+{
+	if(!GPIO_read(&PINB,BTN)){
+		units = 0;
+		decimals = 0;
+		seconds	=0;
+		tens = 0;
+	}
+
+}
+
+
 /**
  * ISR starts when Timer/Counter0 overflows. Increment decimal counter value 
  */
-ISR(TIMER2_OVF_vect)
+
+ISR(TIMER0_OVF_vect)
 {
-	
 	static uint8_t position = 0;
-	/*if(position==0)
-	{
-		SEG_update_shift_regs(units,0);	
-		position=1;
-	}
-	else
-	{
-		SEG_update_shift_regs(decimals,1);
-		position=0;
-	}
-	*/
+
 	switch(position){
 		case 0:
 			SEG_update_shift_regs(units,0,1);
@@ -102,7 +119,6 @@ ISR(TIMER2_OVF_vect)
 
 /* ISR starts when Timer/Counter1 overflows. Display value on SSD
  */
-
 ISR(TIMER1_OVF_vect)
 {
 	units++;
@@ -126,3 +142,6 @@ ISR(TIMER1_OVF_vect)
 			}
 	}
 }
+
+
+
