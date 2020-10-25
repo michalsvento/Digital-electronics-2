@@ -12,6 +12,7 @@
 /* Defines -----------------------------------------------------------*/
 
 #define  BTN PB1
+#define  BTNCLR PD0
 
 /* Includes ----------------------------------------------------------*/
 #include <avr/io.h>         // AVR device-specific IO definitions
@@ -43,6 +44,9 @@ int main(void)
 	GPIO_config_input_pullup(&DDRB,BTN);
 	PCICR = PCICR | (1 << PCIE0);		
 	PCMSK0 = PCMSK0 |(1 << PCINT1);
+	
+	PCICR |= (1<< PCIE2);
+	PCMSK2 |= (1<< PCINT16);
 	
     /* Configure 8-bit Timer/Counter0
      * Set prescaler and enable overflow interrupt */
@@ -82,6 +86,31 @@ ISR(PCINT0_vect)
 
 }
 
+ISR(PCINT2_vect)
+{
+	switch(position){
+		case 0:
+		SEG_clear(units,0);
+		position=1;
+		break;
+		case 1:
+		SEG_clear(decimals,1);
+		position=2;
+		break;
+		case 2:
+		SEG_clear(seconds,2);
+		position=3;
+		break;
+		case 3:
+		SEG_clear(tens,3);
+		position=0;
+		break;
+		default:
+		SEG_clear(units,0);
+		position=0;
+		break;
+	}
+	
 
 /**
  * ISR starts when Timer/Counter0 overflows.  Display value on SSD
@@ -110,7 +139,7 @@ ISR(TIMER0_OVF_vect)
 			break;
 		default:
 			SEG_update_shift_regs(units,0,1);
-			position=1;
+			position=0;
 			break;
 	}
 			
