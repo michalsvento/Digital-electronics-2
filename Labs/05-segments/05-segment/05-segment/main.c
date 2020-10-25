@@ -8,12 +8,12 @@
  * This work is licensed under the terms of the MIT license.
  * 
  **********************************************************************/
+
+/* Defines -----------------------------------------------------------*/
+
 #define  BTN PB1
-#ifndef F_CPU
-#define F_CPU 16000000
-#endif
+
 /* Includes ----------------------------------------------------------*/
-#include <util/delay.h>
 #include <avr/io.h>         // AVR device-specific IO definitions
 #include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
 #include "timer.h"          // Timer library for AVR-GCC
@@ -21,17 +21,13 @@
 #include "gpio.h"
 
 
-
-
+static uint8_t position = 0;
 static uint8_t units = 0;
 static uint8_t decimals = 0;
 static uint8_t seconds	=0;
 static uint8_t tens = 0;
 
 /* Function definitions ----------------------------------------------*/
-
-
-
 
 /**
  * Main function where the program execution begins. Display decimal 
@@ -43,15 +39,14 @@ int main(void)
     // Configure SSD signals
     SEG_init();
 	
-	PCICR = PCICR | (1 << PCIE0);
-	PCMSK1 = PCMSK1 |(1 << PCINT1);
-	
+	// Configure PB0 as input pull up & for Pin interrupt 
 	GPIO_config_input_pullup(&DDRB,BTN);
-	
+	PCICR = PCICR | (1 << PCIE0);		
+	PCMSK0 = PCMSK0 |(1 << PCINT1);
 	
     /* Configure 8-bit Timer/Counter0
      * Set prescaler and enable overflow interrupt */
-	TIM0_overflow_4ms();
+	TIM0_overflow_16ms();
 	TIM0_overflow_interrupt_enable();
     /* Configure 16-bit Timer/Counter1
      * Set prescaler and enable overflow interrupt */
@@ -72,6 +67,10 @@ int main(void)
 }
 
 /* Interrupt service routines ----------------------------------------*/
+/**
+ * ISR starts when is change on PB1
+ */
+
 ISR(PCINT0_vect)
 {
 	if(!GPIO_read(&PINB,BTN)){
@@ -85,12 +84,12 @@ ISR(PCINT0_vect)
 
 
 /**
- * ISR starts when Timer/Counter0 overflows. Increment decimal counter value 
+ * ISR starts when Timer/Counter0 overflows.  Display value on SSD
  */
 
 ISR(TIMER0_OVF_vect)
 {
-	static uint8_t position = 0;
+	
 
 	switch(position){
 		case 0:
@@ -117,7 +116,7 @@ ISR(TIMER0_OVF_vect)
 			
 }
 
-/* ISR starts when Timer/Counter1 overflows. Display value on SSD
+/* ISR starts when Timer/Counter1 overflows.Increment decimal counter value 
  */
 ISR(TIMER1_OVF_vect)
 {
