@@ -13,10 +13,14 @@
 
 #define  BTN PB1
 #define  BTNCLR PD0
+#ifndef F_CPU
+#define F_CPU 16000000
+#endif
 
 /* Includes ----------------------------------------------------------*/
 #include <avr/io.h>         // AVR device-specific IO definitions
 #include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
+#include <util/delay.h>
 #include "timer.h"          // Timer library for AVR-GCC
 #include "segment.h"        // Seven-segment display library for AVR-GCC
 #include "gpio.h"
@@ -45,6 +49,7 @@ int main(void)
 	PCICR = PCICR | (1 << PCIE0);		
 	PCMSK0 = PCMSK0 |(1 << PCINT1);
 	
+	GPIO_config_input_pullup(&DDRD,BTNCLR);
 	PCICR |= (1<< PCIE2);
 	PCMSK2 |= (1<< PCINT16);
 	
@@ -87,37 +92,41 @@ ISR(PCINT0_vect)
 }
 
 ISR(PCINT2_vect)
-{
-	switch(position){
-		case 0:
-		SEG_clear(units,0);
-		position=1;
-		break;
-		case 1:
-		SEG_clear(decimals,1);
-		position=2;
-		break;
-		case 2:
-		SEG_clear(seconds,2);
-		position=3;
-		break;
-		case 3:
-		SEG_clear(tens,3);
-		position=0;
-		break;
-		default:
-		SEG_clear(units,0);
-		position=0;
-		break;
+{	
+	if(!GPIO_read(&DDRD,BTNCLR))
+	{
+		switch(position)
+			{
+				case 0:
+					SEG_clear(units,0);
+					position=1;
+					break;
+				case 1:
+					SEG_clear(decimals,1);
+					position=2;
+					break;
+				case 2:
+					SEG_clear(seconds,2);
+					position=3;
+					break;
+				case 3:
+					SEG_clear(tens,3);
+					position=0;
+					break;
+				default:
+					SEG_clear(units,0);
+					position=0;
+			}
+			_delay_ms(2000);
 	}
-	
+}
 
 /**
  * ISR starts when Timer/Counter0 overflows.  Display value on SSD
  */
 
-ISR(TIMER0_OVF_vect)
-{
+
+ISR(TIMER0_OVF_vect){
 	
 
 	switch(position){
@@ -140,34 +149,37 @@ ISR(TIMER0_OVF_vect)
 		default:
 			SEG_update_shift_regs(units,0,1);
 			position=0;
-			break;
-	}
+			}
+			
 			
 }
 
 /* ISR starts when Timer/Counter1 overflows.Increment decimal counter value 
  */
-ISR(TIMER1_OVF_vect)
-{
+
+
+ISR(TIMER1_OVF_vect){
+	
+
 	units++;
 	if(units>9)
 	{
 		units=0;
 		decimals++;
-			if(decimals>5)
+		if(decimals>5)
+		{
+			decimals=0;
+			seconds++;
+			if(seconds> 9)
 			{
-				decimals=0;
-				seconds++;
-					if(seconds> 9)
-					{
-						seconds=0;
-						tens++;
-							if(tens>5)
-							{
-								tens=0;
-							}
-					}
+				seconds=0;
+				tens++;
+				if(tens>5)
+				{
+					tens=0;
+				}
 			}
+		}
 	}
 }
 
