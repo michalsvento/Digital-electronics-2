@@ -55,8 +55,10 @@ void SEG_update_shift_regs(uint8_t segments, uint8_t position,uint8_t DP);
 
 /* SEG_clear */
 
-void SEG_clear(uint8_t segments, uint8_t position);
+void SEG_clear(void);
 
 /* SEG_clk_2us */
+
+void SEG_clk_2us(void);
 
 #endif

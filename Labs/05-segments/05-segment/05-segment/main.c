@@ -59,7 +59,7 @@ int main(void)
 	TIM0_overflow_interrupt_enable();
     /* Configure 16-bit Timer/Counter1
      * Set prescaler and enable overflow interrupt */
-	TIM1_overflow_262ms();
+	TIM1_overflow_1s();
 	TIM1_overflow_interrupt_enable();
     // Enables interrupts by setting the global interrupt mask
 	sei();
@@ -95,29 +95,8 @@ ISR(PCINT2_vect)
 {	
 	if(!GPIO_read(&DDRD,BTNCLR))
 	{
-		switch(position)
-			{
-				case 0:
-					SEG_clear(units,0);
-					position=1;
-					break;
-				case 1:
-					SEG_clear(decimals,1);
-					position=2;
-					break;
-				case 2:
-					SEG_clear(seconds,2);
-					position=3;
-					break;
-				case 3:
-					SEG_clear(tens,3);
-					position=0;
-					break;
-				default:
-					SEG_clear(units,0);
-					position=0;
-			}
-			_delay_ms(2000);
+			SEG_clear();
+			
 	}
 }
 

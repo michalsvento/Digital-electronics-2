@@ -16,10 +16,8 @@
 #include "segment.h"        // Seven-segment display library for AVR-GCC
 
 /* Variables ---------------------------------------------------------*/
-	static uint8_t  led=0;
-	static uint8_t pos=0;
-
-
+static uint8_t  led=0;
+static uint8_t pos=0;
 
 /* Function definitions ----------------------------------------------*/
 /**
@@ -58,36 +56,35 @@ ISR(TIMER1_OVF_vect)
 	SEG_update_shift_regs(led,pos);
 
 	static uint8_t Ndisplays=4;		//Number of displays
+	
 	++led;
 	
-	if(led<=4)
+	if(led<=4)			//First part from SEG A-SEG D
 	{
-		if(led==4)			// last segment position 0
+		if(led==4)			// last segment, position 0
 		{
 			if(pos<(Ndisplays-1))		
 			{
-				pos++;		// move to position 3(last)
-				led--;		//	SegmentD doesn't move
+				pos++;		// move to position of Ndisplays
+				led--;		// SegmentD stays until condition true
 			}
 		}
 	}
 	
-	if( (led<=7)  && (led>4 ))
+	if( (led<=7)  && (led>4 ))	
 	{
 		
 		if(led==7)
 		{
-			if(pos>0)
+			if(pos>0)		//move to Seg A , position 0
 			{
-				pos--;
+				pos--; 
 				led--;
 			}
 			else
 			{
-				led=1;
+				led=1;	// Start with SEG B and repeat the cycle
 			}
 		}
-	}
-
-		
+	}		
 }

@@ -16,10 +16,10 @@
 #include "segment.h"
 
 /* Variables ---------------------------------------------------------*/
-// Active-low digits 0 to 9
+// Active-low SEG A - SEG F
 uint8_t segment_value[] = {
-	// abcdefgDP
-	0b01111111,		//segment A
+	//abcdefgDP
+	0b01111111,		//segment A-initialization
 	0b10111111,		//segment B
 	0b11011111,		//segment C
 	0b11101111,		//segment D
