@@ -24,3 +24,15 @@ It's a American standard code for information interchange. Its code table for le
 |97 | a |
 |... | ... | 
 |122 | z |
+
+
+
+   | **Function name** | **Function parameters** | **Description** | **Example** |
+   | :-- | :-- | :-- | :-- |
+   | `lcd_init` | `LCD_DISP_OFF`<br>`LCD_DISP_ON`<br>`LCD_DISP_ON_CURSOR`<br>`LCD_DISP_ON_CURSOR_BLINK` | Display off&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp; | `lcd_init(LCD_DISP_OFF);`<br>&nbsp;<br>&nbsp;<br>&nbsp; |
+   | `lcd_clrscr` | none | | `lcd_clrscr();` |
+   | `lcd_gotoxy` | `uint8_t`x , y| Set cursor to specified position| `lcd_gotoxy(0,4);` |
+   | `lcd_putc` | | | |
+   | `lcd_puts` | | | |
+   | `lcd_command` | | | |
+   | `lcd_data` | `LCD_DATA0_PORT`| | |
