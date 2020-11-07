@@ -13,7 +13,7 @@
 | [03-gpio](Labs/03-gpio)| Lab 3:Own header creating |
 | [04-interrupts](Labs/04-interrupts) | Lab 4: Timers,interrupts |
 | [05-segments](Labs/05-segments) | Lab 5: 7-segment display |
-| ... | Lab 6: ... |
+|[06-lcd](Labs/06-lcd)| Lab 6: LCD display |
 | ... | Lab 7: ... |
 | ... | Lab 8: ... |
 | ... | Lab 9: ... |
