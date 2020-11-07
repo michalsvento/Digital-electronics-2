@@ -110,7 +110,7 @@ int main(void)
 	// Configure 8-bit Timer/Counter1 for Stopwatch
 	// Set prescaler and enable overflow interrupt every 1 s
 	
-	TIM1_overflow_1s();
+	TIM1_overflow_262ms();
 	TIM1_overflow_interrupt_enable();
 	
 	// Configure 8-bit Timer/Counter2 for Stopwatch
@@ -145,66 +145,78 @@ ISR(TIMER2_OVF_vect)
     static uint8_t number_of_overflows = 0;
 	static uint8_t tens = 0;        // Tenths of a second
 	static uint8_t secs = 0;        // Seconds
-	static uint8_t tensofsecs = 0;		// Tenths of a second
-	static uint8_t minutes =0;		// minutes
-	static uint8_t tensofmins =0;		// t of a minute
+	static uint8_t minutes = 0;		// minutes  
+	static uint16_t secsqr = 0;	// variable for square of seconds
 	char lcd_string[2] = "  ";      // String for converting numbers by itoa()
+	char lcd_square[4]= "    ";
 
     number_of_overflows++;
     if (number_of_overflows >= 6)
     {
         // Do this every 6 x 16 ms = 100 ms
         number_of_overflows = 0;
-
-        // WRITE YOUR CODE HERE
+		
 		tens++;
 		if (tens> 9)
 		{
 			tens=0;
 			secs++;
-			if (secs>9)
+			if (secs>59)
 			{
 				secs=0;
-				tensofsecs++;
-				if (tensofsecs>6)
-				{	
-					tensofsecs=0;
-					minutes++;
-					if (minutes>9)
-					{
-						minutes=0;
-						tensofmins++;
-						if (tensofmins > 6)
-						{
-							tensofmins=0;
-						}
-					}
+				minutes++;
+				if (minutes>59)
+				{
+					minutes=0;
 				}
-				
 			}
-				
 		}
-		
+				
+			
+
 		itoa(tens, lcd_string,10);
 		lcd_gotoxy(7,0);
 		lcd_puts(lcd_string);
 		
-		itoa(secs, lcd_string, 10);
-		lcd_gotoxy(5,0);
+		
+		itoa(secs, lcd_string,10);
+		if(secs<10)
+		{
+			lcd_gotoxy(5,0);
+		}
+		else
+		{
+			lcd_gotoxy(4,0);	
+		}
 		lcd_puts(lcd_string);
 		
-		itoa(tensofsecs, lcd_string, 10);
-		lcd_gotoxy(4,0);
-		lcd_puts(lcd_string);
 		
-		itoa(minutes, lcd_string, 10);
-		lcd_gotoxy(2,0);
+		itoa(minutes, lcd_string,10);
+		if(minutes<10)
+		{
+			lcd_gotoxy(2,0);
+		}
+		else
+		{
+			lcd_gotoxy(1,0);
+		}
 		lcd_puts(lcd_string);
+			
 		
-		itoa(tensofmins, lcd_string, 10);
-		lcd_gotoxy(1,0);
-		lcd_puts(lcd_string);
-	
+		secsqr = secs*secs;
+		if (secs==0)				// for reset on the positions 12-14
+		{
+			lcd_gotoxy(11,0);	
+			lcd_puts("0   ");
+		}
+		else
+		{
+			itoa(secsqr,lcd_square,10);
+			lcd_gotoxy(11,0);
+			lcd_puts(lcd_square);
+		}
+
+		
 
     }
 }
@@ -217,60 +229,62 @@ ISR(TIMER2_OVF_vect)
 ISR(TIMER1_OVF_vect)
 {
 	static uint8_t i=0;
-	char lcd_string[10]= "TEST TEXT ";
+	uint8_t running_text[]= "I like Digital electronics! ";
 	char lcd_shown[5]= "     ";
 	lcd_gotoxy(11,1);
 	
-	if(i< (sizeof(lcd_string)-4))
+	if(i< (sizeof(running_text)-4))
 	{
-		lcd_shown[0] = lcd_string[i];
-		lcd_shown[1] = lcd_string[i+1];
-		lcd_shown[2] = lcd_string[i+2];
-		lcd_shown[3] = lcd_string[i+3];
-		lcd_shown[4] = lcd_string[i+4];
+		lcd_shown[0] = running_text[i];
+		lcd_shown[1] = running_text[i+1];
+		lcd_shown[2] = running_text[i+2];
+		lcd_shown[3] = running_text[i+3];
+		lcd_shown[4] = running_text[i+4];
 		lcd_puts(lcd_shown);
 		i++;
 	}
-	if(i==(sizeof(lcd_string)-4))
+
+	if(i==(sizeof(running_text)-1))
 	{
-		lcd_shown[0] = lcd_string[i];
-		lcd_shown[1] = lcd_string[i+1];
-		lcd_shown[2] = lcd_string[i+2];
-		lcd_shown[3] = lcd_string[i+3];
-		lcd_shown[4] = lcd_string[0];
-		lcd_puts(lcd_shown);
-		i++;
-	}
-	if(i==(sizeof(lcd_string)-3))
-	{
-		lcd_shown[0] = lcd_string[i];
-		lcd_shown[1] = lcd_string[i+1];
-		lcd_shown[2] = lcd_string[i+2];
-		lcd_shown[3] = lcd_string[0];
-		lcd_shown[4] = lcd_string[1];
-		lcd_puts(lcd_shown);
-		i++;
-	}
-	if(i==(sizeof(lcd_string)-2))
-	{
-		lcd_shown[0] = lcd_string[i];
-		lcd_shown[1] = lcd_string[i+1];
-		lcd_shown[2] = lcd_string[0];
-		lcd_shown[3] = lcd_string[1];
-		lcd_shown[4] = lcd_string[2];
-		lcd_puts(lcd_shown);
-		i++;
-	}
-	if(i==(sizeof(lcd_string)-1))
-	{
-		lcd_shown[0] = lcd_string[i];
-		lcd_shown[1] = lcd_string[0];
-		lcd_shown[2] = lcd_string[1];
-		lcd_shown[3] = lcd_string[2];
-		lcd_shown[4] = lcd_string[3];
+		lcd_shown[0] = running_text[i];
+		lcd_shown[1] = running_text[0];
+		lcd_shown[2] = running_text[1];
+		lcd_shown[3] = running_text[2];
+		lcd_shown[4] = running_text[3];
 		lcd_puts(lcd_shown);
 		i=0;
 	}
+
+	if(i==(sizeof(running_text)-2))
+	{
+		lcd_shown[0] = running_text[i];
+		lcd_shown[1] = running_text[i+1];
+		lcd_shown[2] = running_text[0];
+		lcd_shown[3] = running_text[1];
+		lcd_shown[4] = running_text[2];
+		lcd_puts(lcd_shown);
+		i++;
+		}
+	if(i==(sizeof(running_text)-3))
+	{
+		lcd_shown[0] = running_text[i];
+		lcd_shown[1] = running_text[i+1];
+		lcd_shown[2] = running_text[i+2];
+		lcd_shown[3] = running_text[0];
+		lcd_shown[4] = running_text[1];
+		lcd_puts(lcd_shown);
+		i++;
+	}
+	if(i==(sizeof(running_text)-4))
+	{
+		lcd_shown[0] = running_text[i];
+		lcd_shown[1] = running_text[i+1];
+		lcd_shown[2] = running_text[i+2];
+		lcd_shown[3] = running_text[i+3];
+		lcd_shown[4] = running_text[0];
+		lcd_puts(lcd_shown);
+		i++;
+		}
 	
 
 }
@@ -280,6 +294,7 @@ ISR(TIMER1_OVF_vect)
  * one user-defined character. Resets the bar when
  * when lcd_gotoxy(7,1) & symbol 0x04 is reached
  */
+
 
 ISR(TIMER0_OVF_vect)
 {
