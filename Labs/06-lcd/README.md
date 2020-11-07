@@ -6,10 +6,10 @@ Use schematic of the [LCD keypad shield](../../Docs/arduino_shield.pdf) and find
    | **LCD signal(s)** | **AVR pin(s)** | **Description** |
    | :-: | :-: | :-- |
    | RS | PB0 | Register selection signal. Selection between Instruction register (RS=0) and Data register (RS=1) |
-   | R/W | GND | Read or write |
+   | R/W | GND | Read (High) or write (Low) - our AVR has just write function |
    | E | PB1 | Signal ENABLE  |
-   | D[3:0] | not used | - |
-   | D[7:4] | PD[7:4] | Data registers |
+   | D[3:0] | not used | Data registers for 8bit communication |
+   | D[7:4] | PD[7:4] | Data registers, 4 bit communication,first high four bits and then low four bits with an E clock pulse |
 
 What is the ASCII table? What are the values for uppercase letters `A` to `Z`, lowercase letters `a` to `z`, and numbers `0` to `9` in this table?
 
