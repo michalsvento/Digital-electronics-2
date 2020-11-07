@@ -17,8 +17,9 @@ It's a American standard code for information interchange. Its code table for le
 
 |**Description**|**ASCII**|**Character**|
 | :-: | :-: | :-:
-|  Capital letters US Alphabet   | 65 - 90  | `A` to `Z`|
-| small letters US Alphabet | 97 - 122 | `a`to `z`
+|  uppercase (Capital) letters US Alphabet   | 65 - 90  | `A` to `Z`|
+| lowercase letters US Alphabet | 97 - 122 | `a`to `z`|
+| numbers | 48 - 57 | `0`to `9` | 
 
 
 
