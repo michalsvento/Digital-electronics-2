@@ -7,7 +7,7 @@ Use schematic of the [LCD keypad shield](../../Docs/arduino_shield.pdf) and find
    | :-: | :-: | :-- |
    | RS | PB0 | Register selection signal. Selection between Instruction register (RS=0) and Data register (RS=1) |
    | R/W | GND | Read (High) or write (Low) - our AVR has just write function |
-   | E | PB1 | Signal ENABLE  |
+   | E | PB1 | Signal ENABLE- loads data to LCD on falling edge  |
    | D[3:0] | not used | Data registers for 8bit communication |
    | D[7:4] | PD[7:4] | Data registers, 4 bit communication,first high four bits and then low four bits with an E clock pulse |
 
