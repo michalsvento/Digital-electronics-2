@@ -17,7 +17,17 @@
 #include <stdlib.h>         // C library. Needed for conversion function
 
 
-uint8_t customChar[40] = {
+uint8_t customChar[48] = {	
+
+	0b00000,
+	0b00000,
+	0b00000,
+	0b00000,
+	0b00000,
+	0b00000,
+	0b00000,
+	0b00000,
+			
 	0b10000,
 	0b10000,
 	0b10000,
@@ -54,6 +64,9 @@ uint8_t customChar[40] = {
 	0b11110,
 	0b11110,
 	
+
+	
+	
 	0b11111,
 	0b11111,
 	0b11111,
@@ -61,7 +74,7 @@ uint8_t customChar[40] = {
 	0b11111,
 	0b11111,
 	0b11111,
-	0b11111,
+	0b11111
 	
 };
 /* Function definitions ----------------------------------------------*/
@@ -76,7 +89,7 @@ int main(void)
 
 	// Set pointer to beginning of CGRAM memory
 	lcd_command(1 << LCD_CGRAM);
-	for (uint8_t i = 0; i < 40; i++)
+	for (uint8_t i = 0; i < 48; i++)
 	{
 		// Store all new chars to memory line by line
 		lcd_data(customChar[i]);
@@ -93,13 +106,12 @@ int main(void)
     lcd_gotoxy(1, 0);
     lcd_puts("00:00.0");
 	
-	lcd_gotoxy(11, 0);
-	lcd_puts("a");
 	
+		
 
 
-// 	lcd_gotoxy(11, 1);
-// 	lcd_puts("c");
+
+ 	
 	
     // Configure 8-bit Timer/Counter2 for Stopwatch
     // Set prescaler and enable overflow interrupt every 16 ms
@@ -113,10 +125,10 @@ int main(void)
 	TIM1_overflow_262ms();
 	TIM1_overflow_interrupt_enable();
 	
-	// Configure 8-bit Timer/Counter2 for Stopwatch
+	// Configure 8-bit Timer/Counter0 for Stopwatch
 	// Set prescaler and enable overflow interrupt every 16 ms
 	
-	TIM0_overflow_16ms();
+	TIM0_overflow_4ms();
 	TIM0_overflow_interrupt_enable();
 	
 
@@ -146,7 +158,7 @@ ISR(TIMER2_OVF_vect)
 	static uint8_t tens = 0;        // Tenths of a second
 	static uint8_t secs = 0;        // Seconds
 	static uint8_t minutes = 0;		// minutes  
-	static uint16_t secsqr = 0;	// variable for square of seconds
+	static uint16_t secsqr = 0;		// variable for square of seconds
 	char lcd_string[2] = "  ";      // String for converting numbers by itoa()
 	char lcd_square[4]= "    ";
 
@@ -180,9 +192,9 @@ ISR(TIMER2_OVF_vect)
 		
 		
 		itoa(secs, lcd_string,10);
-		if(secs<10)
+		if(secs<10)					//single digit or two digits
 		{
-			lcd_gotoxy(5,0);
+			lcd_gotoxy(5,0);		
 		}
 		else
 		{
@@ -202,7 +214,7 @@ ISR(TIMER2_OVF_vect)
 		}
 		lcd_puts(lcd_string);
 			
-		
+		// counts the square of secs and show from pos 11,0
 		secsqr = secs*secs;
 		if (secs==0)				// for reset on the positions 12-14
 		{
@@ -229,7 +241,7 @@ ISR(TIMER2_OVF_vect)
 ISR(TIMER1_OVF_vect)
 {
 	static uint8_t i=0;
-	uint8_t running_text[]= "I like Digital electronics! ";
+	uint8_t running_text[32]= "    I like Digital electronics! ";
 	char lcd_shown[5]= "     ";
 	lcd_gotoxy(11,1);
 	
@@ -292,28 +304,33 @@ ISR(TIMER1_OVF_vect)
 /**
  * ISR starts when Timer/Counter0 overflows. Move every 16ms
  * one user-defined character. Resets the bar when
- * when lcd_gotoxy(7,1) & symbol 0x04 is reached
+ * when lcd_gotoxy(10,1) & symbol 0x05 is reached
+ * user-defined character from 0 - 5
+ * "     "|    " "||   " "|||  " "|||| " "|||||"
  */
 
 
 ISR(TIMER0_OVF_vect)
-{
+{	
 	static uint8_t symbol = 0;
 	static uint8_t position = 0;
-
+	
+	
 	lcd_gotoxy(1 + position, 1);
 	lcd_putc(symbol);
-	
+
 	symbol++;
-	if(symbol>4)
+	if(symbol>5)
 	{
-		position++;
 		symbol=0;
-		if (position>7)
+		position++;
+		
+		if (position>9)
 		{
 			lcd_gotoxy(1,1);
-			lcd_puts("        ");			// 8 spaces for reset
+			lcd_puts("          ");			// 10 spaces for reset
 			position=0;
 		}
 	}
+	
 }
