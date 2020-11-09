@@ -15,7 +15,7 @@ What is the ASCII table? What are the values for uppercase letters `A` to `Z`, l
 
 It's a American standard code for information interchange. Its code table for letters numbers and special characters
 
-|**Description**|**ASCII**|**Character**|
+|**Description**|**ASCII in Decimal**|**Character**|
 | :-: | :-: | :-:
 |  uppercase (Capital) letters US Alphabet   | 65 - 90  | `A` to `Z`|
 | lowercase letters US Alphabet | 97 - 122 | `a`to `z`|
