@@ -4,24 +4,14 @@
 
 The purpose of the laboratory exercise is to understand analog-to-digital number conversion and the use of an internal 8-channel 10-bit AD converter. Another goal is to understand serial asynchronous communication, data frame structure and communication options using an internal USART unit.
 
-![LCD-keypad shield](Images/arduino_uno_adc.jpg)
+![LCD-keypad shield](Images/arduino_uno_adc.jpeg)
 
 
 ## Preparation tasks (done before the lab at home)
 
 Use schematic of the [LCD keypad shield](../../Docs/arduino_shield.pdf) and find out the connection of five push buttons: Select, Left, Up, Down, and Right.
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+![zapojenie](Images/zapojeniebuttons.jpg)
 
 According to the connection, calculate the voltage value on pin PC0[A0] if one button is pressed at a time. In this case, the voltage on the pin is given by the [voltage divider](https://www.allaboutcircuits.com/tools/voltage-divider-calculator/), where resistors R3, R4, R5 and R6 are applied successively.
 
