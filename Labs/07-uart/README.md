@@ -11,7 +11,7 @@ The purpose of the laboratory exercise is to understand analog-to-digital number
 
 Use schematic of the [LCD keypad shield](../../Docs/arduino_shield.pdf) and find out the connection of five push buttons: Select, Left, Up, Down, and Right.
 
-![zapojenie](Images/zapojeniebuttons.jpg)
+![zapojenie](Images/zapojeniebuttons.png)
 
 According to the connection, calculate the voltage value on pin PC0[A0] if one button is pressed at a time. In this case, the voltage on the pin is given by the [voltage divider](https://www.allaboutcircuits.com/tools/voltage-divider-calculator/), where resistors R3, R4, R5 and R6 are applied successively.
 
