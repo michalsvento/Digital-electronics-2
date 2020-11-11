@@ -45,12 +45,12 @@ Calculate the ADC values for these voltages according to the following equation 
 
    | **Push button** | **PC0[A0] voltage** | **ADC value (calculated)** | **ADC value (measured)** |
    | :-: | :-: | :-: | :-: |
-   | Right  | 0&nbsp;V | 0   |  |
-   | Up     | 0.495&nbsp;V | 101 |  |
-   | Down   | 1.203&nbsp;V | 246 |  |
-   | Left   | 1.969&nbsp;V | 403  |  |
-   | Select | 3.181&nbsp;V | 651 |  |
-   | none   | 5&nbsp;V |   1023  |  |
+   | Right  | 0&nbsp;V | 0   |  0|
+   | Up     | 0.495&nbsp;V | 101 | 101 |
+   | Down   | 1.203&nbsp;V | 246 | 245 |
+   | Left   | 1.969&nbsp;V | 403  | 402 |
+   | Select | 3.181&nbsp;V | 651 |  650 |
+   | none   | 5&nbsp;V |   1023  | 1022 |
    
    
     | **Function name** | **Function parameters** | **Description** | **Example** |
