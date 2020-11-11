@@ -51,3 +51,11 @@ Calculate the ADC values for these voltages according to the following equation 
    | Left   | 1.969&nbsp;V | 403  |  |
    | Select | 3.181&nbsp;V | 651 |  |
    | none   | 5&nbsp;V |   1023  |  |
+   
+   
+    | **Function name** | **Function parameters** | **Description** | **Example** |
+   | :-- | :-- | :-- | :-- |
+   | `uart_init` | `UART_BAUD_SELECT(9600, F_CPU)` | Initialize UART to 8N1 and set baudrate to 9600&nbsp;Bd | `uart_init(UART_BAUD_SELECT(9600, F_CPU));` |
+   | `uart_getc` | void  |Get received byte from ringbuffer.  | |
+   | `uart_putc` | char |  |
+   | `uart_puts` | string |  |
