@@ -110,14 +110,15 @@ ISR(TIMER1_OVF_vect)
  * and send it to UART.
  */
 ISR(ADC_vect)
-{
+{  
 	uint16_t  value=0;
-	static uint16_t  porovnaj=0;	
+	static uint16_t  compare=0;	
+	uint8_t parity=0;
 	char lcd_string[4];
 	
 	value=ADC;
-	
-	if(porovnaj!=value)
+
+	if(compare!=value)			//makes this process when ADC changes value
 	{
 		
 		//Show value in decimal
@@ -127,11 +128,44 @@ ISR(ADC_vect)
 		lcd_gotoxy(8,0);
 		lcd_puts(lcd_string);
 		
-	
-		uart_puts("ADC value in decimal: ");
-		uart_puts(lcd_string);
-		uart_puts(" ");
+		//  Display parity bit and send UART only for Buttons
 		
+		//uart DECIMAL
+		uart_puts("ADC decimal ");
+		uart_puts(lcd_string);
+		
+		// odd parity 
+		char lcd_binary [10];
+		for (uint8_t i=0; value !=0; i++)
+		{
+			lcd_binary[i]= value %2;
+			if(lcd_binary[i] == 1)
+			{
+				parity++;
+			}
+			value= value / 2;
+		}
+				
+				
+		lcd_gotoxy(15,1);
+				
+		if (parity % 2)
+		{
+			uart_puts(" PARITY 1 ");
+			lcd_puts("1");
+		}
+		else
+		{
+			uart_puts(" PARITY 0 ");
+			lcd_puts("0");
+		}
+				
+		value=ADC;	// return orig. value, which was changed in cycle
+		
+		
+		
+	
+
 		// show value in hex
 		itoa(value,lcd_string,16);
 		lcd_gotoxy(13,0);
@@ -139,7 +173,9 @@ ISR(ADC_vect)
 		lcd_gotoxy(13,0);
 		lcd_puts(lcd_string);
 		
-
+		
+			
+		// Display the name of key on LCD & UART
 		
 		lcd_gotoxy(8,1);
 		lcd_puts("      ");
@@ -148,7 +184,6 @@ ISR(ADC_vect)
 		{
 			lcd_gotoxy(8,1);
 			lcd_puts("none");
-			uart_puts("none");
 			uart_puts("\n");
 		}
 		
@@ -189,7 +224,7 @@ ISR(ADC_vect)
 		}
 		
 		//SELECT
-		if (value >= 600 && value<=700)
+		if (value >= 648 && value<=655)
 		{
 			lcd_gotoxy(8,1);
 			lcd_puts("SELECT");
@@ -198,8 +233,11 @@ ISR(ADC_vect)
 		}	
 		
 		
-		porovnaj=value;
+		compare=value;		//
+		
 	}
+
+
 
 }
 	
