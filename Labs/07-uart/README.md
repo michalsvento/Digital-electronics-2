@@ -53,9 +53,24 @@ Calculate the ADC values for these voltages according to the following equation 
    | none   | 5&nbsp;V |   1023  | 1022 |
    
    
-    | **Function name** | **Function parameters** | **Description** | **Example** |
+The operation with the AD converter is performed through ADMUX, ADCSRA, ADCL+ADCH, ADCSRB, and DIDR0 registers. See [ATmega328P datasheet](https://www.microchip.com/wwwproducts/en/ATmega328p) (**Analog-to-Digital Converter > Register Description**) and complete the following table.
+
+   | **Operation** | **Register(s)** | **Bit(s)** | **Description** |
+   | :-: | :-- | :-- | :-- |
+   | Voltage reference | ADMUX | REFS1:0 | 01: AVcc voltage reference, 5V |
+   | Input channel | ADMUX | MUX3:0 | 0000: ADC0, 0001: ADC1, ... |
+   | ADC enable | ADCSRA | Bit 7 – ADEN: | 0: turned off |
+   | Start conversion | ADCSRA | Bit 6 – ADSC | 1: in Single - starts each conversion, in Freerunning - starts the first conv.; returns to 0 when conv. completed |
+   | ADC interrupt enable | ADCSRA | Bit 3 – ADIE | 1: activated, if 1-bit in SREG is set |
+   | ADC clock prescaler | ADCSRA | ADPS2:0 | 000: Division factor 2, 001: 2, 010: 4, ...|
+   | ADC result |  |  |  |
+
+
+In the lab, we are using [UART library](http://www.peterfleury.epizy.com/avr-software.html) developed by Peter Fleury. Use online manual of UART library and add the input parameters and description of the functions to the following table.
+
+   | **Function name** | **Function parameters** | **Description** | **Example** |
    | :-- | :-- | :-- | :-- |
    | `uart_init` | `UART_BAUD_SELECT(9600, F_CPU)` | Initialize UART to 8N1 and set baudrate to 9600&nbsp;Bd | `uart_init(UART_BAUD_SELECT(9600, F_CPU));` |
-   | `uart_getc` | void  |Get received byte from ringbuffer.  | |
-   | `uart_putc` | char |  |
-   | `uart_puts` | string |  |
+   | `uart_getc` | none | Get received byte from ringbuffer. | `uart_getc()` |
+   | `uart_putc` | `data` byte to be transmitted | Put byte to ringbuffer for transmitting via UART. | `uart_putc(data)` |
+   | `uart_puts` | `s`	string to be transmitted  | Put string to ringbuffer for transmitting via UART. | `uart_putc(s)` |
